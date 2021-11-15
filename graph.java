@@ -52,12 +52,34 @@ public class graph<T>{
             }
         }
     }
+    public Queue<T> depthFirst(int origin){
+        Queue<T> order = new LinkedList<T>();
+        Stack<Integer> vertexStack = new Stack<>();
+        vertexStack.push(origin);
+        order.add(labels[origin]);
+        while(!vertexStack.isEmpty()){
+            int topVertex = vertexStack.peek();
+            for(int i=0; i<labels.length; i++){
+                if(edges[topVertex][i] && !order.contains(labels[i])){
+                    topVertex = i;
+                    vertexStack.push(topVertex);
+                    order.add(labels[topVertex]);
+                    i=0;
+                }
+            }
+            vertexStack.pop();
+        }
+        while(!order.isEmpty()){
+            System.out.println(order.remove());
+        }
+        return order;
+    }
     public Queue<T> breadthFirst(int origin){
         Queue<T> order = new LinkedList<T>();
         Queue<Integer> vertexQueue = new LinkedList<Integer>();
-        int current = origin;
         vertexQueue.add(origin);
         while(!vertexQueue.isEmpty()){
+            int current = vertexQueue.peek();
             for(int i=0; i<labels.length; i++){
                 if(edges[current][i]){
                     vertexQueue.add(i);
@@ -65,8 +87,6 @@ public class graph<T>{
             }
             if(!order.contains(labels[vertexQueue.remove()]))
                 order.add(labels[current]);
-            if(!vertexQueue.isEmpty())
-                current = vertexQueue.peek();
         }
         while(!order.isEmpty()){
             System.out.println(order.remove());
