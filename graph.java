@@ -9,6 +9,7 @@ public class graph<T>{
         edges = tempEdges;
         labels = tempVertices;
     }
+
     public int[] neighbors(int vertex){
         int count = 0;
         for(int i=0; i<labels.length; i++){
@@ -25,7 +26,6 @@ public class graph<T>{
         }
         return neighbors;
     }
-
     public void addEdge(int source, int target){
         edges[source][target] = true;
     }
@@ -75,18 +75,20 @@ public class graph<T>{
         return order;
     }
     public Queue<T> breadthFirst(int origin){
+        //holds traversal order
         Queue<T> order = new LinkedList<T>();
         Queue<Integer> vertexQueue = new LinkedList<Integer>();
         vertexQueue.add(origin);
         while(!vertexQueue.isEmpty()){
             int current = vertexQueue.peek();
-            for(int i=0; i<labels.length; i++){
-                if(edges[current][i]){
-                    vertexQueue.add(i);
-                }
+            int[] neighbors = this.neighbors(current);
+            for(int x: neighbors){
+                vertexQueue.add(x);
             }
-            if(!order.contains(labels[vertexQueue.remove()]))
+            vertexQueue.remove();
+            if(!order.contains(labels[current])){
                 order.add(labels[current]);
+            }
         }
         while(!order.isEmpty()){
             System.out.println(order.remove());
