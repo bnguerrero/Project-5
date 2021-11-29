@@ -9,7 +9,6 @@ public class graph<T>{
         edges = tempEdges;
         labels = tempVertices;
     }
-
     public int[] neighbors(int vertex){
         int count = 0;
         for(int i=0; i<labels.length; i++){
@@ -58,20 +57,15 @@ public class graph<T>{
         vertexStack.push(origin);
         order.add(labels[origin]);
         while(!vertexStack.isEmpty()){
-            int topVertex = vertexStack.peek();
-            for(int i=0; i<labels.length; i++){
-                if(edges[topVertex][i] && !order.contains(labels[i])){
-                    topVertex = i;
-                    vertexStack.push(topVertex);
-                    order.add(labels[topVertex]);
-                    i=0;
-                }
+            int current = vertexStack.peek();
+            int[] neighbors = this.neighbors(current);
+            for(int x: neighbors){
+                if(!vertexStack.contains(current))
+                    vertexStack.push(x);
             }
-            vertexStack.pop();
         }
-        while(!order.isEmpty()){
+        while(!order.isEmpty())
             System.out.println(order.remove());
-        }
         return order;
     }
     public Queue<T> breadthFirst(int origin){
@@ -83,7 +77,8 @@ public class graph<T>{
             int current = vertexQueue.peek();
             int[] neighbors = this.neighbors(current);
             for(int x: neighbors){
-                vertexQueue.add(x);
+                if(!order.contains(labels[x]))
+                    vertexQueue.add(x);
             }
             vertexQueue.remove();
             if(!order.contains(labels[current])){
