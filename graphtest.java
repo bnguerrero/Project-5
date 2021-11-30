@@ -1,7 +1,7 @@
 public class graphtest {
     public static void main(String[] args){
         Character[] arr = {'A','B','C','D','E','F','G','H','I'};
-        graph<Character> testGraph = new graph<>(9);
+        Matrixgraph<Character> testGraph = new Matrixgraph<>(9);
         testGraph.createGraph(arr);
         testGraph.addEdge(0,1);
         testGraph.addEdge(0,3);
